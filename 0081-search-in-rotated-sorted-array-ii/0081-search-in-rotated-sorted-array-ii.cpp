@@ -1,43 +1,44 @@
-			// \U0001f609\U0001f609\U0001f609\U0001f609Please upvote if it helps \U0001f609\U0001f609\U0001f609\U0001f609
 class Solution {
 public:
     bool search(vector<int>& nums, int target) {
-        int l = 0;
-        int r = nums.size() - 1;
-        
-        while(l <= r)
+        int low = 0;
+    int high = nums.size()-1;
+    int mid;
+    while(low<=high)
+    {
+        mid = (low+high)/2;
+        cout<<mid<<" ";
+        if(target==nums[mid] )
         {
-            int mid = l + (r-l) / 2;
-            if (nums[mid] == target)
-                return true;
-			// with duplicates we can have this contdition, just update left & right
-            if((nums[l] == nums[mid]) && (nums[r] == nums[mid]))
-            {
-                l++;
-                r--;
-            }
-			// first half
-			// first half is in order
-            else if(nums[l] <= nums[mid])
-            {
-				// target is in first  half
-                if((nums[l] <= target) && (nums[mid] > target))
-                    r = mid - 1;
-                else
-                    l = mid + 1;
-            }
-			// second half
-			// second half is order
-			// target is in second half
-            else
-            {
-                if((nums[mid] < target) && (nums[r]>= target))
-                    l = mid + 1;
-                else
-                    r = mid - 1;
-            }
+            return true;
         }
-        return false;
+        if((nums[low] ==nums[mid]) && (nums[high]==nums[mid]))
+        {
+            low += 1;
+            high -= 1;
+        }
+        // while(nums[mid]==nums[low] && low!=mid)low+=1;
+        // while(nums[mid]==nums[high] && high!=mid)high-=1;
+        // check if left side of mid is sorted
+        else if(nums[low]<=nums[mid])
+        {
+        //check whether the target is in between left side's first and last element
+        if(nums[low]<=target && nums[mid]>=target)
+        {
+            high = mid-1;
+        }
+        else 
+            low = mid+1;
+        }
+        //if left side is not, then right side is sorted.
+        else
+        {
+        //check whether the target is in between left side's first and last element 
+            if(nums[mid]<=target && nums[high]>=target) low = mid +1;
+            else
+            high = mid -1;
+        }
     }
-	// for github repository link go to my profile.
+    return false;
+    }
 };
